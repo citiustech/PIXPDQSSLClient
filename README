@@ -1,0 +1,45 @@
+To Start OpenPIXPDQ
+----------------------
+
+1.  Set the 'JAVA_HOME' should to point to the correct java version.
+
+2.  Command to start the client (Append the file name which content the HL7 message to send)
+
+	e.g "%JAVA_HOME%/bin/java" -jar PIXPDQSSLClient.jar FileToSend
+
+3.  This will send message to secure port of the PIXPDQ server and displays the response back from the server
+
+Assumptions
+----------------------
+
+1.  Java version 1.6 or higher is installed.
+
+2.  conf/client.properties contains valid values
+
+--------------------------------------------------------
+1.  Configure the 'client.properties' file in the 'conf' directory to connect to the correct database.
+
+	host		Name of PIXPDQServer running
+	port		port where to send the message
+	trustStore	Name of certificate of trust store
+	trustStorePass	password of trust store
+	keyStore	Name of certificate of key store	
+	trustStorePass	password of key store
+
+    Sample configuration
+    -------------------------------------
+	host=ec2-174-129-112-24.compute-1.amazonaws.com
+	port=3710
+	trustStore=OpenPIXPDQ_2009_STORE.jks
+	trustStorePass=password
+	keyStore=OpenPIXPDQ_2009_KEY.p12
+	keyStorePass=password
+    -------------------------------------
+
+Ports
+------
+
+The default secure ports for OpenPIXPDQ are
+
+PIX Manager Secure	= 3610
+PD Supplier Secure	= 3710

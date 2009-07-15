@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="Jar" name="PIXPDQSSLClient">
+    <property file="build.properties" />
+    <property name="build.root" location="temp" />
+    <property name="dist.root" location="dist" />
+
+    <target name="clean" description="Clean out compiled src">
+        <delete failonerror="false" quiet="true" includeEmptyDirs="true">
+            <fileset dir="${dist.dir}/lib" />
+        </delete>
+		<delete file="${dist.dir}/${jar.name}" failonerror="false" quiet="true" />
+		<delete failonerror="false" quiet="true" includeEmptyDirs="true">
+            <fileset dir="${build.root}" />
+            <fileset dir="${dist.root}" />
+        </delete>
+    </target>
+
+
+    <target name="compile" depends="init,setClasspath">
+        <copy todir="${build.root}">
+            <fileset dir="${src.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <javac failonerror="false" debug="true" srcdir="${src.dir}" destdir="${build.root}" classpath="${classpath}" />
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.root}" />
+        <mkdir dir="${dist.root}" />
+    </target>
+
+    <target name="setClasspath">
+        <property environment="env" />
+        <path id="build.classpath">
+            <fileset dir="${lib.src}">
+                <include name="*.jar" />
+            </fileset>
+        </path>
+        <property name="classpath" refid="build.classpath" />
+        <echo message="Classpath Settings done: ${classpath}" />
+    </target>
+
+    <target name="Jar" depends="checkFiles,clean,compile" description="generate Util jar file">
+
+		<!-- Create destination directory for jar file -->
+        <jar jarfile="${dist.root}/${jar.name}" basedir="${build.root}" excludes="${to.exclude}" manifest="MANIFEST.MF"/>
+        <echo message="Jar Created [${dist.root}/${jar.name}]" />
+        <echo message="Deleting temporary directory:[${build.root}]" />
+        <copy file="${dist.root}/${jar.name}" todir="${dist.dir}" />
+        <copy todir="${dist.dir}/lib">
+            <fileset dir="${lib.src}" />
+        </copy>
+        <copy todir="${dist.dir}/conf">
+            <fileset dir="${conf.src}" />
+        </copy>
+        <delete dir="${build.root}" />
+        <delete dir="${dist.root}" />
+    </target>
+
+    <target name="checkFiles">
+        <fail message="Required Files doesn't exist in the lib folder!" >
+            <condition>
+                <not>
+                    <and>
+                        <available file="${lib.src}/braid-base-1.2.jar" />
+                        <available file="${lib.src}/commons-httpclient-3.0.1.jar" />
+                         <!-- <available file="${lib.src}/log4j-all-1.3alpha-8.jar" /> -->
+                        <available file="${lib.src}/log4j-1.2.15.jar" />
+						
+                    </and>
+                </not>
+            </condition>
+        </fail>
+    </target>
+</project>

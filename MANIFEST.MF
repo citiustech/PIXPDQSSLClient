@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 10.0-b19 (Sun Microsystems Inc.)
+Main-Class: com.citiustech.pixpdqclient.Main
+Class-Path: lib/commons-httpclient-3.0.1.jar lib/log4j-1.2.15.jar lib/braid-base-1.2.jar
+X-COMMENT: Main-Class will be added automatically by build
+
